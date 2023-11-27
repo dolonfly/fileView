@@ -38,5 +38,5 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/doc-preview:latest,${{ secrets.DOCKERHUB_USERNAME }}/doc-preview:4.4.0-${{ env.DATE }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/doc-preview:latest,${{ secrets.DOCKERHUB_USERNAME }}/doc-preview:4.4.0.${{ env.DATE }}
           push: true
