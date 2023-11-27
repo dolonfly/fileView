@@ -5,12 +5,14 @@ import cn.keking.model.FileAttribute;
 import cn.keking.model.ReturnResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.mola.galimatias.GalimatiasParseException;
+import okhttp3.*;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -37,6 +39,8 @@ public class DownloadUtils {
     private static final String URL_PARAM_FTP_PASSWORD = "ftp.password";
     private static final String URL_PARAM_FTP_CONTROL_ENCODING = "ftp.control.encoding";
     private static final RestTemplate restTemplate = new RestTemplate();
+
+    private static OkHttpClient client = new OkHttpClient();
     private static final ObjectMapper mapper = new ObjectMapper();
 
 
@@ -97,10 +101,25 @@ public class DownloadUtils {
                         }
                     };
 //                    urlStr = URLDecoder.decode(urlStr, StandardCharsets.UTF_8.name());
-                    restTemplate.execute(urlStr, HttpMethod.GET, requestCallback, fileResponse -> {
-                        FileUtils.copyToFile(fileResponse.getBody(), realFile);
-                        return null;
+                    Request request = new Request.Builder().url(urlStr).build();
+                    client.newCall(request).enqueue(new Callback() {
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (!response.isSuccessful()) {
+                                throw new IOException("Failed to download file: " + response);
+                            }
+                            FileOutputStream fos = new FileOutputStream(realFile);
+                            fos.write(response.body().bytes());
+                            fos.close();
+                        }
                     });
+//                    restTemplate.execute(urlStr, HttpMethod.GET, requestCallback, fileResponse -> {
+//                        FileUtils.copyToFile(fileResponse.getBody(), realFile);
+//                        return null;
+//                    });
                 } else if (isFtpUrl(url)) {
                     String ftpUsername = WebUtils.getUrlParameterReg(fileAttribute.getUrl(), URL_PARAM_FTP_USERNAME);
                     String ftpPassword = WebUtils.getUrlParameterReg(fileAttribute.getUrl(), URL_PARAM_FTP_PASSWORD);

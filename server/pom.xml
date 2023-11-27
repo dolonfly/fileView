@@ -286,6 +286,12 @@
             <systemPath>${pom.basedir}/lib/jai_codec-1.1.3.jar</systemPath>
         </dependency>
 
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.11.0</version>
+        </dependency>
+
         <!-- test dependency - start -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
