@@ -423,6 +423,9 @@ public class FileHandlerService implements InitializingBean {
             } else {
                 url = url.replace("fullfilename=" + fullFileName, "");
             }
+            if (url.endsWith("&")) {
+                url = url.substring(0, url.length() - 1);
+            }
         } else {
             fileName = WebUtils.getFileNameFromURL(url);
             type = FileType.typeFromUrl(url);
@@ -435,7 +438,7 @@ public class FileHandlerService implements InitializingBean {
             fileName = strs[1] + urlStrr.trim();
             attribute.setSkipDownLoad(true);
         }
-        url = WebUtils.encodeUrlFileName(url);
+//        url = WebUtils.encodeUrlFileName(url);
         fileName = KkFileUtils.htmlEscape(fileName);  //文件名处理
         attribute.setType(type);
         attribute.setName(fileName);
