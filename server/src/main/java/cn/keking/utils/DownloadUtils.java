@@ -96,7 +96,7 @@ public class DownloadUtils {
                           proxyAuthorizationMap.entrySet().forEach(entry-> request.getHeaders().set(entry.getKey(), entry.getValue()));
                         }
                     };
-                    urlStr = URLDecoder.decode(urlStr, StandardCharsets.UTF_8.name());
+//                    urlStr = URLDecoder.decode(urlStr, StandardCharsets.UTF_8.name());
                     restTemplate.execute(urlStr, HttpMethod.GET, requestCallback, fileResponse -> {
                         FileUtils.copyToFile(fileResponse.getBody(), realFile);
                         return null;
