@@ -60,6 +60,7 @@ public class DownloadUtils {
         }
         ReturnResponse<String> response = new ReturnResponse<>(0, "下载成功!!!", "");
         String realPath = getRelFilePath(fileName, fileAttribute);
+        logger.info("begin download file, store path: {}", realPath);
 
         // 判断是否非法地址
         if (KkFileUtils.isIllegalFileName(realPath)) {
@@ -104,16 +105,18 @@ public class DownloadUtils {
                     Request request = new Request.Builder().url(urlStr).build();
                     client.newCall(request).enqueue(new Callback() {
                         public void onFailure(Call call, IOException e) {
-                            e.printStackTrace();
+                            logger.error("下载文件失败", e);
                         }
 
                         public void onResponse(Call call, Response response) throws IOException {
                             if (!response.isSuccessful()) {
+                                logger.error("Failed to download file: {}", response);
                                 throw new IOException("Failed to download file: " + response);
                             }
                             FileOutputStream fos = new FileOutputStream(realFile);
                             fos.write(response.body().bytes());
                             fos.close();
+                            logger.info("end download file, store path: {}", realPath);
                         }
                     });
 //                    restTemplate.execute(urlStr, HttpMethod.GET, requestCallback, fileResponse -> {
