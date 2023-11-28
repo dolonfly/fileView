@@ -122,6 +122,9 @@ public class OfficeFilePreviewImpl implements FilePreview {
                         }
 
                         return otherFilePreview.notSupportedFile(model, fileAttribute, "抱歉，该文件版本不兼容，文件版本错误。");
+                    } catch (Exception e) {
+                        logger.error("openOfficeToPDF err", e);
+                        return otherFilePreview.notSupportedFile(model, fileAttribute, "抱歉，该文件版本不兼容，文件版本错误。。");
                     }
 
                     if (isHtml) {
