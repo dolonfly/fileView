@@ -13,6 +13,8 @@ import cn.keking.web.filter.BaseUrlFilter;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.jodconverter.core.office.OfficeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,7 +29,7 @@ import java.util.List;
  */
 @Service
 public class OfficeFilePreviewImpl implements FilePreview {
-
+    private static final Logger logger = LoggerFactory.getLogger(OfficeFilePreviewImpl.class);
     public static final String OFFICE_PREVIEW_TYPE_IMAGE = "image";
     public static final String OFFICE_PREVIEW_TYPE_ALL_IMAGES = "allImages";
     private static final String FILE_DIR = ConfigConstants.getFileDir();
@@ -153,6 +155,7 @@ public class OfficeFilePreviewImpl implements FilePreview {
         try {
             imageUrls =  fileHandlerService.pdf2jpg(outFilePath, pdfName, fileAttribute);
         } catch (Exception e) {
+            logger.error("pdf2jpg err", e);
             Throwable[] throwableArray = ExceptionUtils.getThrowables(e);
             for (Throwable throwable : throwableArray) {
                 if (throwable instanceof IOException || throwable instanceof EncryptedDocumentException) {

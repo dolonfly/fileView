@@ -23,6 +23,7 @@ public class OfficeToPdfService {
     private final static Logger logger = LoggerFactory.getLogger(OfficeToPdfService.class);
 
     public void openOfficeToPDF(String inputFilePath, String outputFilePath, FileAttribute fileAttribute) throws OfficeException {
+        logger.info("begin openOfficeToPDF, inputFilePath: {} ,outputFilePath: {}", inputFilePath, outputFilePath);
         office2pdf(inputFilePath, outputFilePath, fileAttribute);
     }
 
