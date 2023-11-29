@@ -73,8 +73,8 @@
 				//poster:'ckplayer/poster.png',//封面图片
 				menu:[
 			{
-				title:'kkFileView',
-				link:'https://www.kkview.cn',
+				title:'mediaPlayer',
+				link:'https://github.com/dolonfly/fileView',
 				underline:true
 			},
 			{
