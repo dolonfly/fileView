@@ -114,6 +114,7 @@ public class OfficeFilePreviewImpl implements FilePreview {
                     try {
                         officeToPdfService.openOfficeToPDF(filePath, outFilePath, fileAttribute);
                     } catch (OfficeException e) {
+                        logger.error("openOfficeToPDF err", e);
                         if (isPwdProtectedOffice && !OfficeUtils.isCompatible(filePath, filePassword)) {
                             // 加密文件密码错误，提示重新输入
                             model.addAttribute("needFilePassword", true);
