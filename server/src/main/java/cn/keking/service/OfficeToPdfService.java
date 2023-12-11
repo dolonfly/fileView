@@ -67,6 +67,10 @@ public class OfficeToPdfService {
             builder = LocalConverter.builder().storeProperties(customProperties);
         }
         builder.build().convert(inputFile).to(outputFile).execute();
+        if (!outputFile.exists()){
+            logger.error("转换失败 from={} , out={}",inputFile.getName(),outputFilePath_end);
+            throw new OfficeException("转换后的文档为空");
+        }
     }
 
 
