@@ -89,7 +89,7 @@ public class OfficeFilePreviewImpl implements FilePreview {
         if (ConfigConstants.isCacheEnabled()) {
             // 全局开启缓存
             isUseCached = true;
-            if (!forceUpdatedCache && fileHandlerService.listConvertedFiles().containsKey(cacheFileName)) {
+            if (!forceUpdatedCache && KkFileUtils.isExist(outFilePath) && fileHandlerService.listConvertedFiles().containsKey(cacheFileName)) {
                 // 存在缓存
                 isCached = true;
             }
