@@ -71,7 +71,7 @@ public class OfficeFilePreviewImpl implements FilePreview {
                 }
             }
         }
-        if (DownloadUtils.fileExist(fileAttribute, fileName) && (
+        if (!DownloadUtils.fileExist(fileAttribute, fileName) || (
                 forceUpdatedCache || !fileHandlerService.listConvertedFiles().containsKey(pdfName) || !ConfigConstants.isCacheEnabled())) {
         // 下载远程文件到本地，如果文件在本地已存在不会重复下载
         ReturnResponse<String> response = DownloadUtils.downLoad(fileAttribute, fileName);
