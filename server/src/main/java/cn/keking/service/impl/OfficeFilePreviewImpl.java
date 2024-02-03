@@ -148,6 +148,7 @@ public class OfficeFilePreviewImpl implements FilePreview {
         if (!isHtml && baseUrl != null && (OFFICE_PREVIEW_TYPE_IMAGE.equals(officePreviewType) || OFFICE_PREVIEW_TYPE_ALL_IMAGES.equals(officePreviewType))) {
             return getPreviewType(model, fileAttribute, officePreviewType, baseUrl, cacheFileName, outFilePath, fileHandlerService, OFFICE_PREVIEW_TYPE_IMAGE, otherFilePreview);
         }
+        logger.info("预览文件 pdfUrl：{}", cacheFileName);
         cacheFileName =   URLEncoder.encode(cacheFileName).replaceAll("\\+", "%20");
         model.addAttribute("pdfUrl", cacheFileName);
         return isHtml ? EXEL_FILE_PREVIEW_PAGE : PDF_FILE_PREVIEW_PAGE;

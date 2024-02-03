@@ -440,6 +440,8 @@ public class FileHandlerService implements InitializingBean {
         }
 //        url = WebUtils.encodeUrlFileName(url);
         fileName = KkFileUtils.htmlEscape(fileName);  //文件名处理
+        fileName = fileName.replaceAll("\\+", "");
+        fileName = fileName.replaceAll("\\s", "");
         attribute.setType(type);
         attribute.setName(fileName);
         attribute.setSuffix(suffix);
