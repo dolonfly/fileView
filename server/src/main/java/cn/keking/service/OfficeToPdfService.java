@@ -5,6 +5,7 @@ import cn.keking.model.FileAttribute;
 import com.sun.star.document.UpdateDocMode;
 import org.apache.commons.lang3.StringUtils;
 import org.jodconverter.core.office.OfficeException;
+import org.jodconverter.local.JodConverter;
 import org.jodconverter.local.LocalConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ public class OfficeToPdfService {
 
 
     public static void converterFile(File inputFile, String outputFilePath_end, FileAttribute fileAttribute) throws OfficeException {
+        logger.info("converterFile() -> coming");
         File outputFile = new File(outputFilePath_end);
         // 假如目标路径不存在,则新建该路径
         if (!outputFile.getParentFile().exists() && !outputFile.getParentFile().mkdirs()) {
@@ -66,9 +68,9 @@ public class OfficeToPdfService {
         } else {
             builder = LocalConverter.builder().storeProperties(customProperties);
         }
-        logger.error("开始转换 from={} , out={}", inputFile.getName(), outputFilePath_end);
+        logger.info("开始转换 from={} , out={}", inputFile.getName(), outputFilePath_end);
         builder.build().convert(inputFile).to(outputFile).execute();
-        logger.error("结束转换 from={} , out={}", inputFile.getName(), outputFilePath_end);
+        logger.info("结束转换 from={} , out={}", inputFile.getName(), outputFilePath_end);
         if (!outputFile.exists()){
             logger.error("转换失败 from={} , out={}",inputFile.getName(),outputFilePath_end);
             throw new OfficeException("转换后的文档为空");
@@ -77,8 +79,10 @@ public class OfficeToPdfService {
 
 
     public void office2pdf(String inputFilePath, String outputFilePath, FileAttribute fileAttribute) throws OfficeException {
+        logger.info("office2pdf -> inputFilePath={} , outputFilePath={}", inputFilePath, outputFilePath);
         if (null != inputFilePath) {
             File inputFile = new File(inputFilePath);
+            logger.info("office2pdf -> inputFile.exists() = {} ", inputFile.exists());
             // 判断目标文件路径是否为空
             if (null == outputFilePath) {
                 // 转换后的文件路径
