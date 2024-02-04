@@ -116,22 +116,33 @@ public class DownloadUtils {
                     };
 //                    urlStr = URLDecoder.decode(urlStr, StandardCharsets.UTF_8.name());
                     Request request = new Request.Builder().url(urlStr).build();
-                    client.newCall(request).enqueue(new Callback() {
-                        public void onFailure(Call call, IOException e) {
-                            logger.error("下载文件失败", e);
-                        }
 
-                        public void onResponse(Call call, Response response) throws IOException {
-                            if (!response.isSuccessful()) {
-                                logger.error("Failed to download file: {}", response);
-                                throw new IOException("Failed to download file: " + response);
-                            }
-                            FileOutputStream fos = new FileOutputStream(realFile);
-                            fos.write(response.body().bytes());
-                            fos.close();
-                            logger.info("end download file, store path: {}", realPath);
-                        }
-                    });
+                    Response response1 = client.newCall(request).execute();
+                    if (!response1.isSuccessful()) {
+                        logger.error("Failed to download file: {}", response1);
+                        throw new IOException("Failed to download file: " + response1);
+                    }
+                    FileOutputStream fos = new FileOutputStream(realFile);
+                    fos.write(response1.body().bytes());
+                    fos.close();
+                    logger.info("end download file, store path: {}", realPath);
+//
+//                    client.newCall(request).enqueue(new Callback() {
+//                        public void onFailure(Call call, IOException e) {
+//                            logger.error("下载文件失败", e);
+//                        }
+//
+//                        public void onResponse(Call call, Response response) throws IOException {
+//                            if (!response.isSuccessful()) {
+//                                logger.error("Failed to download file: {}", response);
+//                                throw new IOException("Failed to download file: " + response);
+//                            }
+//                            FileOutputStream fos = new FileOutputStream(realFile);
+//                            fos.write(response.body().bytes());
+//                            fos.close();
+//                            logger.info("end download file, store path: {}", realPath);
+//                        }
+//                    });
 //                    restTemplate.execute(urlStr, HttpMethod.GET, requestCallback, fileResponse -> {
 //                        FileUtils.copyToFile(fileResponse.getBody(), realFile);
 //                        return null;
