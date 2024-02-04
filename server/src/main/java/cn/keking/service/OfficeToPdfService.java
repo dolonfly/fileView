@@ -82,7 +82,7 @@ public class OfficeToPdfService {
         logger.info("office2pdf -> inputFilePath={} , outputFilePath={}", inputFilePath, outputFilePath);
         if (null != inputFilePath) {
             File inputFile = new File(inputFilePath);
-            logger.info("office2pdf -> inputFile.exists() = {} ", inputFile.exists());
+            logger.info("office2pdf -> inputFile.exists() = {}  path={} ", inputFile.exists(),inputFile.getAbsolutePath());
             // 判断目标文件路径是否为空
             if (null == outputFilePath) {
                 // 转换后的文件路径
